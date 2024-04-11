@@ -1,7 +1,6 @@
 package io.springbatch.springbatchlecture;
 
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
@@ -15,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 
 @RequiredArgsConstructor
 @Configuration
-public class DBJobConfiguration {
+public class JobConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -61,7 +60,5 @@ public class DBJobConfiguration {
                 })
                 .build();
     }
-
-
 
 }
