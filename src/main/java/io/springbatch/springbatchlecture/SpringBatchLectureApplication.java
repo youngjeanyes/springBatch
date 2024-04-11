@@ -11,5 +11,4 @@ public class SpringBatchLectureApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringBatchLectureApplication.class, args);
     }
-
 }
