@@ -2,7 +2,6 @@ package io.springbatch.springbatchlecture;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -13,11 +12,9 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Map;
-
 @Configuration
 @RequiredArgsConstructor
-public class JobParemetersConfiguration {
+public class StepExecutionConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -27,6 +24,7 @@ public class JobParemetersConfiguration {
         return jobBuilderFactory.get("job")
                 .start(step1())
                 .next(step2())
+                .next(step3())
                 .build();
     }
 
@@ -57,8 +55,24 @@ public class JobParemetersConfiguration {
                         System.out.println("==================");
                         System.out.println("Step2 has executed");
                         System.out.println("==================");
+//                        throw new RuntimeException("Step2 has failed");
+                        return RepeatStatus.FINISHED;
+                    }
+                })
+                .build();
+    }
 
-//                        throw new RuntimeException("Step2 has faield");
+    @Bean
+    public Step step3() {
+        return stepBuilderFactory.get("step3")
+                .tasklet(new Tasklet() {
+                    @Override
+                    public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
+
+                        System.out.println("==================");
+                        System.out.println("Step3 has executed");
+                        System.out.println("==================");
+
                         return RepeatStatus.FINISHED;
                     }
                 })
