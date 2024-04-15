@@ -37,17 +37,6 @@ public class JobParemetersConfiguration {
                     @Override
                     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
 
-                        //stepContribution => JobParameters 형식 객체 반환
-                        JobParameters jobParameters = stepContribution.getStepExecution().getJobExecution().getJobParameters();
-                        jobParameters.getString("name");
-                        jobParameters.getLong("seq");
-                        jobParameters.getDate("date");
-                        jobParameters.getDouble("age");
-
-                        //chunkContext => Map 형식 반환
-                        Map<String, Object> jobParameters1 = chunkContext.getStepContext().getJobParameters();
-                        jobParameters1.get("name");
-
                         System.out.println("==================");
                         System.out.println("Step1 has executed");
                         System.out.println("==================");
@@ -69,6 +58,7 @@ public class JobParemetersConfiguration {
                         System.out.println("Step2 has executed");
                         System.out.println("==================");
 
+//                        throw new RuntimeException("Step2 has faield");
                         return RepeatStatus.FINISHED;
                     }
                 })
