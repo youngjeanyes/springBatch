@@ -14,50 +14,46 @@ import org.springframework.context.annotation.Configuration;
 
 @RequiredArgsConstructor
 @Configuration
-public class HelloJobConfiguration {
+public class JobInstanceConfiguration {
 
-    //의존성 주입 받음
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job helloJob(){
-        return jobBuilderFactory.get("helloJob")    // job 이름을 "helloJob"으로 부여
-                .start(helloStep1())                // 시작 step
-                .next(helloStep2())                 // 이어지는 step
+    public Job job(){
+        return jobBuilderFactory.get("job")
+                .start(step1())
+                .next(step2())
                 .build();
     }
 
     @Bean
-    public Step helloStep1(){
-        return stepBuilderFactory.get("helloStep1")
+    public Step step1(){
+        return stepBuilderFactory.get("step1")
                 .tasklet(new Tasklet() {
                     @Override
                     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
 
-                        //비즈니스 로직 수행
-                        System.out.println(" ======================");
-                        System.out.println(" >> Hello Spring Batch!");
-                        System.out.println(" ======================");
-                        System.out.println(" >> step1 was executed.");
-                        System.out.println(" ======================");
+                        System.out.println("==================");
+                        System.out.println("JobInstanceConfiguration step1 was executed");
+                        System.out.println("==================");
 
-                        return RepeatStatus.FINISHED;   // Finished이면 tasklet이 1번말 실행되고 종료. (기본: 무제한 실행됨)
+                        return RepeatStatus.FINISHED;
                     }
                 })
                 .build();
     }
 
     @Bean
-    public Step helloStep2(){
-        return stepBuilderFactory.get("helloStep2")
+    public Step step2(){
+        return stepBuilderFactory.get("step2")
                 .tasklet(new Tasklet() {
                     @Override
                     public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
 
-                        System.out.println(" ======================");
-                        System.out.println(" >> step2 was executed.");
-                        System.out.println(" ======================");
+                        System.out.println("==================");
+                        System.out.println("JobInstanceConfiguration step2 was executed");
+                        System.out.println("==================");
 
                         return RepeatStatus.FINISHED;
                     }
