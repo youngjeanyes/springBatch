@@ -7,14 +7,15 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
+@Component //-> *Component를 추가해 Bean이 되어야 함
 public class JobRunner implements ApplicationRunner {
 
     //job 실행시키는 역할
     @Autowired
     private JobLauncher jobLauncher;
 
-    //
     @Autowired
     private Job job;
 
@@ -22,9 +23,8 @@ public class JobRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("name", "user1")
+                .addString("name", "user2")
                 .toJobParameters();
-
 
         jobLauncher.run(job, jobParameters);
     }
