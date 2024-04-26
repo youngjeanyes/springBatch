@@ -19,25 +19,36 @@ public class ValidatorConfiguration {
 
     @Bean
     public Job batchJob() {
-        return this.jobBuilderFactory.get("batchJob1")
+        return this.jobBuilderFactory.get("batchJob")
                 .incrementer(new RunIdIncrementer())
                 .start(step1())
                 .next(step2())
-//                .validator(new CustomJobParametersValidator())
-                .validator(new DefaultJobParametersValidator(new String[]{"name", "date"}, new String[]{"count"}))
+                //.incrementer(new CustomJobParametersIncrementer())  //직접 Custom으로 구현도 가능함
+                .incrementer(new RunIdIncrementer())                  //대게 이걸 사용
                 .build();
     }
 
     @Bean
     public Step step1() {
         return stepBuilderFactory.get("step1")
-                .tasklet(((contribution, chunkContext) -> RepeatStatus.FINISHED))
+                .tasklet((contribution, chunkContext) -> {
+                    System.out.println("------------------");
+                    System.out.println("step1 has executed");
+                    System.out.println("------------------");
+                    return RepeatStatus.FINISHED;
+                })
                 .build();
     }
+
     @Bean
     public Step step2() {
         return stepBuilderFactory.get("step2")
-                .tasklet(((contribution, chunkContext) -> RepeatStatus.FINISHED))
+                .tasklet((contribution, chunkContext) -> {
+                    System.out.println("------------------");
+                    System.out.println("step2 has executed");
+                    System.out.println("------------------");
+                    return RepeatStatus.FINISHED;
+                })
                 .build();
     }
 }
